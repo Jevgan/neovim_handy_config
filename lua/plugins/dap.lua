@@ -37,6 +37,7 @@ return {
             vim.keymap.set("n", "<F3>", dap.step_out, { desc = "DAP: Step Out" })
             vim.keymap.set("n", "<F4>", dap.step_back, { desc = "DAP: Step Back" })
             vim.keymap.set("n", "<F6>", dap.restart, { desc = "DAP: Restart" })
+            vim.keymap.set("n", "<leader>s", dap.disconnect, { desc = "DAP: Stop" })
             vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "DAP: Toggle Breakpoint" })
             -- vim.keymap.set("n", "<leader>?", function()
                 --   dapui.eval(nil, { enter = true })
