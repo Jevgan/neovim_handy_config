@@ -1,54 +1,34 @@
 return {
     'nvim-tree/nvim-tree.lua',
     config = function()
+        -- 1. Global Keymaps (Moved outside on_attach so they always work)
+        vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<cr>", { silent = true, desc = "Toggle NvimTree" })
+        vim.keymap.set("n", "<leader>o", ":NvimTreeOpen<cr>", { silent = true, desc = "Open NvimTree" })
+
         local function my_on_attach(bufnr)
-            local api = require "nvim-tree.api"
-            vim.opt.termguicolors = true
-            vim.api.nvim_set_keymap("n", "<leader>pv", ":NvimTreeToggle<cr>", { silent = true, noremap = true })
-            vim.api.nvim_set_keymap("n", "<leader>o", ":NvimTreeOpen<cr>", { silent = true, noremap = true })
+            local api = require("nvim-tree.api")
 
             local function opts(desc)
                 return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
             end
+
             api.config.mappings.default_on_attach(bufnr)
 
-            local function git_stage()
+            vim.keymap.set("n", "<leader>of", function()
                 local node = api.tree.get_node_under_cursor()
-                local filepath = node.absolute_path
-
-                local cmd = "git add " .. vim.fn.shellescape(filepath)
-                vim.fn.system(cmd)
-
-                if vim.v.shell_error == 0 then
-                    api.tree.reload()
-                    print("Git Staged: " .. node.name)
-                else
-                    print("Staging errored")
+                if node then
+                    vim.fn.jobstart({ "nautilus", "--select", node.absolute_path }, { detach = true })
                 end
-            end
-
-            local function git_unstage()
-                local node = api.tree.get_node_under_cursor()
-                local filepath = node.absolute_path
-
-                local cmd = "git restore --staged " .. vim.fn.shellescape(filepath)
-                vim.fn.system(cmd)
-
-                if vim.v.shell_error == 0 then
-                    api.tree.reload()
-                    print("Git Unstaged: " .. node.name)
-                else
-                    print("Unstaging errored")
-                end
-            end
-
-            vim.keymap.set('n', 's', git_stage, opts('Git Stage'))
-            vim.keymap.set('n', 'u', git_unstage, opts('Git Unstage'))
+            end, opts("Open and Select in System Explorer"))
         end
 
+        -- 3. Setup
         require("nvim-tree").setup({
             on_attach = my_on_attach,
-
+            update_focused_file = {
+                enable = true,
+                update_root = true
+            },
             git = {
                 enable = true,
                 ignore = false,
@@ -57,9 +37,9 @@ return {
                 icons = {
                     glyphs = {
                         git = {
-                            unstaged = "M", -- Change ✗ to M
-                            staged = "S",   -- Change ✓ to S
-                            untracked = "U", -- Change ★ to U
+                            unstaged = "M",
+                            staged = "S",
+                            untracked = "U",
                         },
                     },
                     show = {
