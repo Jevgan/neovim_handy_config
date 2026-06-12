@@ -5,5 +5,12 @@ return {
     config = function()
       require("java").setup()
       vim.lsp.enable('jdtls')
+
+      vim.keymap.set('n', "<leader>jr", function ()
+            local class_name = vim.fn.expand('%:r') 
+            vim.cmd("compiler javac")
+            vim.cmd("make %")
+            vim.cmd("!java " .. class_name)
+      end)
     end,
   }
