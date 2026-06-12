@@ -59,7 +59,6 @@ return {
                 },
                 buffer = {
                     fg = '#222222',
-                    bg = '#ffffff'
                 },
                 buffer_selected = {
                     fg = '#ffffff',
