@@ -90,6 +90,7 @@ return {
                     { name = "nvim_lsp", priority = 750 },
                     { name = "buffer",   priority = 500 },
                     { name = "path",     priority = 250 },
+                    { name = "avante" },
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-Space>'] = cmp.mapping.complete(),
