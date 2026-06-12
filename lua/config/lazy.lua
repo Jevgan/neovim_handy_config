@@ -25,8 +25,8 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.keymap.set("n", "<leader>a", 'ggVG')
 
 --- Buffer
-vim.keymap.set('n', '<A-h>', ':BufferLineCycleNext<CR>', { desc = 'Next buffer' })
-vim.keymap.set('n', '<A-l>', ':BufferLineCyclePrev<CR>', { desc = 'Prev buffer' })
+vim.keymap.set('n', '<A-l>', ':BufferLineCycleNext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<A-h>', ':BufferLineCyclePrev<CR>', { desc = 'Prev buffer' })
 
 vim.keymap.set('n', '<A-o>', '<Cmd>BufferLineCloseOthers<CR>', { desc = 'Delete other buffers' })
 vim.keymap.set('n', '<A->>', ':BufferLineMoveNext<CR>', { desc = 'Move buffer right' })
